@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    image: my-nodejs-app
+    container_name: my-nodejs-app
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm start
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0.24
+    container_name: my-mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
+      MYSQL_DATABASE: virtualisation
+      MYSQL_ROOT_PASSWORD: ixGz2yIwobdPNZg4wYKd
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+
+volumes:
+  mysql-data:
